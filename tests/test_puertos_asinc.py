@@ -5,7 +5,7 @@ from unittest import TestCase
 
 import numpy.testing as npt
 
-from idm.puertos_asinc import IDMEnchufesAsinc
+from tinamit_idm.puertos_asinc import IDMEnchufesAsinc
 from ejemplo_cliente import datos
 
 t_final = 15
