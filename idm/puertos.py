@@ -26,8 +26,8 @@ class IDMEnchufes(object):
     def cambiar(símismo, variable: str, valor: Union[np.ndarray, Number]):
         MensajeCambiar(símismo.con, variable=variable, valor=valor).mandar()
 
-    def recibir(símismo, variable: str) -> np.ndarray:
-        return MensajeRecibir(símismo.con, variable).mandar()
+    def recibir(símismo, variable: str, precisión: int = None) -> np.ndarray:
+        return MensajeRecibir(símismo.con, variable, precisión=precisión).mandar() if precisión else MensajeRecibir(símismo.con, variable).mandar()
 
     def incrementar(símismo, n_pasos):
         MensajeIncrementar(símismo.con, pasos=n_pasos).mandar()
@@ -105,12 +105,13 @@ class MensajeCambiar(Mensaje):
 class MensajeRecibir(Mensaje):
     tipo = 'leer'
 
-    def __init__(símismo, conex: socket.socket, variable: str):
+    def __init__(símismo, conex: socket.socket, variable: str, precisión: int = 1):
         símismo.variable = variable
+        símismo.precisión = precisión
         super().__init__(conex)
 
     def _encabezado(símismo):
-        return {'var': símismo.variable, **super()._encabezado()}
+        return {'var': símismo.variable, 'precisión': símismo.precisión, **super()._encabezado()}
 
     def _procesar_respuesta(símismo) -> Any:
         return RecepciónVariable(símismo.conex).recibir()
