@@ -13,15 +13,6 @@ datos = {
     'multidim': np.arange(2 * 3 * 5).reshape((2, 3, 5))
 }
 
-datos_prec = {
-    'entero': 1,
-    'decimal': 10,
-    'entero negativo': 1,
-    'decimal negativo': 10,
-    'multidim': 1
-}
-
-
 def cliente_puertos(dirección, puerto, t_final):
     t_final = int(t_final)
     vals = datos.copy()
@@ -44,7 +35,7 @@ def cliente_puertos(dirección, puerto, t_final):
                 var = encab['var']
                 prec = encab['precisión']
 
-                vals_bits = (vals[var]*prec).tobytes()
+                vals_bits = vals[var].tobytes()
                 encabezado = json.dumps({
                     'tamaño': len(vals_bits),
                     'tipo_cont': str(vals[var].dtype),

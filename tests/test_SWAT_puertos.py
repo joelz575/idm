@@ -6,7 +6,7 @@ from unittest import TestCase
 import numpy.testing as npt
 
 from idm.puertos import IDMEnchufes
-from SWAT_ejemplo_cliente import datos, datos_prec
+from SWAT_ejemplo_cliente import datos
 
 t_final = 15
 
@@ -39,8 +39,8 @@ class PruebaIDM(TestCase):
                 with símismo.subTest(datos=nmbr_dts):
                     servidor.cambiar('var', dts)
 
-                    recibido = servidor.recibir('var')
-                    npt.assert_equal(dts, recibido)
+                    recibido = servidor.recibir(nmbr_dts) if dts.dtype is int else servidor.recibir(nmbr_dts, precisión=5)
+                    npt.assert_almost_equal(dts, recibido, 5)
 
     def test_recibir_datos(símismo):
         with IDMEnchufes() as servidor:
@@ -49,8 +49,8 @@ class PruebaIDM(TestCase):
 
             for nmbr_dts, dts in datos.items():
                 with símismo.subTest(datos=nmbr_dts):
-                    recibido = servidor.recibir(nmbr_dts, precisión=datos_prec[nmbr_dts])/datos_prec[nmbr_dts]
-                    npt.assert_equal(dts, recibido)
+                    recibido = servidor.recibir(nmbr_dts) if dts.dtype is int else servidor.recibir(nmbr_dts, precisión=5)
+                    npt.assert_almost_equal(dts, recibido, 5)
 
     def test_incrementar(símismo):
         n_pasos = 5

@@ -105,7 +105,7 @@ class MensajeCambiar(Mensaje):
 class MensajeRecibir(Mensaje):
     tipo = 'leer'
 
-    def __init__(símismo, conex: socket.socket, variable: str, precisión: int = 1):
+    def __init__(símismo, conex: socket.socket, variable: str, precisión: int = 0):
         símismo.variable = variable
         símismo.precisión = precisión
         super().__init__(conex)
