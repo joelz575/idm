@@ -23,8 +23,8 @@ class IDMEnchufes(object):
         símismo.con, dir_ = símismo.enchufe.accept()
         símismo.activo = True
 
-    def cambiar(símismo, variable: str, valor: Union[np.ndarray, Number]):
-        MensajeCambiar(símismo.con, variable=variable, valor=valor).mandar()
+    def cambiar(símismo, variable: str, valor: Union[np.ndarray, Number], precisión: int = None):
+        MensajeCambiar(símismo.con, variable=variable, valor=valor, precisión=precisión).mandar() if precisión else MensajeCambiar(símismo.con, variable=variable, valor=valor).mandar()
 
     def recibir(símismo, variable: str, precisión: int = None) -> np.ndarray:
         return MensajeRecibir(símismo.con, variable, precisión=precisión).mandar() if precisión else MensajeRecibir(símismo.con, variable).mandar()
@@ -87,9 +87,10 @@ class Mensaje(object):
 class MensajeCambiar(Mensaje):
     tipo = 'cambiar'
 
-    def __init__(símismo, enchufe, variable: str, valor: Union[np.ndarray, Number]):
+    def __init__(símismo, enchufe, variable: str, valor: Union[np.ndarray, Number],  precisión: int = 0):
         símismo.variable = variable
         símismo.valor = valor if isinstance(valor, np.ndarray) else np.array(valor)
+        símismo.precisión = precisión
 
         super().__init__(enchufe, contenido=símismo.valor.tobytes())
 
@@ -98,6 +99,7 @@ class MensajeCambiar(Mensaje):
             'var': símismo.variable,
             'tipo_cont': str(símismo.valor.dtype),
             'forma': símismo.valor.shape,
+            'precisión': símismo.precisión,
             **super()._encabezado()
         }
 

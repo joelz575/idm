@@ -51,6 +51,7 @@ def cliente_puertos(dirección, puerto, t_final):
                 tmñ = encab['tamaño']
                 tipo_m = encab['tipo_cont']
                 forma = encab['forma']
+                precisión = encab['precisión']
 
                 val = np.frombuffer(e.recv(tmñ), dtype=tipo_m).reshape(forma)
                 vals[var] = val

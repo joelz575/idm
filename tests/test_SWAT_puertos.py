@@ -37,7 +37,7 @@ class PruebaIDM(TestCase):
 
             for nmbr_dts, dts in datos.items():
                 with símismo.subTest(datos=nmbr_dts):
-                    servidor.cambiar('var', dts)
+                    servidor.cambiar('var', dts) if dts.dtype is int else servidor.cambiar('var', dts, precisión=5)
 
                     recibido = servidor.recibir(nmbr_dts) if dts.dtype is int else servidor.recibir(nmbr_dts, precisión=5)
                     npt.assert_almost_equal(dts, recibido, 5)
