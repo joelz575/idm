@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tinamit-idm"
-version = "0.2.3"
+version = "0.2.3a"
 description = ""
 authors = ["joelz575 <joel.harms@mail.mcgill.ca>"]
 
